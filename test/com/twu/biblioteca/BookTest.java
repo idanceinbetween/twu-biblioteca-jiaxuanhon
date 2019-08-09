@@ -22,8 +22,19 @@ public class BookTest {
         @Test
         public void canInitialiseBookObject() throws Exception {
             Book sunFall = new Book();
-            sunFall.setTitle("sunFall");
+            sunFall.setTitle("Sun Fall");
             String title = sunFall.getTitle();
-            assertEquals(title, "sunFall");
+            assertEquals(title, "Sun Fall");
+        }
+
+        @Test
+        public void canChangeCheckedOutStatus() throws Exception{
+            Book sunFall = new Book();
+            sunFall.setTitle("Sun Fall");
+            sunFall.setCheckOut();
+            assertEquals(sunFall.getCheckedOutStatus(), true);
+
+            sunFall.setReturn();
+            assertEquals(sunFall.getCheckedOutStatus(), false);
         }
 }
