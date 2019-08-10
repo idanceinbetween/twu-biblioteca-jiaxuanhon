@@ -35,15 +35,20 @@ public class BibliotecaAppTest {
     // 1.1
     @Test
     public void welcomeHasWelcomeMessage() {
-        System.setOut(new PrintStream(outContent));
-        app.welcome();
+        try {
+            System.setOut(new PrintStream(outContent));
+            app.welcome();
+        } finally {
+            System.setOut(new PrintStream(outContent));
+        }
         Assert.assertTrue(outContent.size() > 1); //new line is a character
     }
 
     // 1.4
     @Test
     public void canSelectMenu() {
-//        app.showMenu();
+        app.showMenu();
+
     }
 
     // Check that user gets error message if menu selection is wrong

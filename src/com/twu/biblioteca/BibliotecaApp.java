@@ -46,21 +46,17 @@ public class BibliotecaApp {
 
     // DECLARE quitApp() method to quit the App.
 
-    public void start() {
-        createLibrary();
-        welcome();
-    }
+    public void run() {
 
-//    public void main(String[] args) {
-        // Create books
-//        createLibrary();
         // View welcome message 1.1
-//        welcome();
+        welcome();
+
         // View Menu 1.4 (one option only "List of Books")
-//        mainMenu();
-        // View list of books 1.2
+
+        // Create books and show list of books 1.2
+        createLibrary();
         // Check out a book 1.7 > checkout success > return to 1.2
         // Return a book 1.10 > return success > return to 1.2
         // Quit the app 1.6 (by hitting Esc?)
-//    }
+    }
 }
