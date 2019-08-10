@@ -1,5 +1,6 @@
 package com.twu.biblioteca;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 public class BibliotecaApp {
@@ -15,14 +16,14 @@ public class BibliotecaApp {
         sunFall.setYear("2019");
 
         Book absoluteProof = new Book(); //CAN WE INSTANTIATE A BIT MORE EFFICIENTLY?
-        absoluteProof.setTitle("Absolute Proof");
-        absoluteProof.setAuthor("James Someone");
-        absoluteProof.setYear("2009");
+        absoluteProof.setTitle("Lean Impact");
+        absoluteProof.setAuthor("Ann Mei Chang");
+        absoluteProof.setYear("2018");
 
         Book angelsAndDemons = new Book(); //CAN WE INSTANTIATE A BIT MORE EFFICIENTLY?
-        angelsAndDemons.setTitle("Angels and Demons");
-        angelsAndDemons.setAuthor("Dan Brown");
-        angelsAndDemons.setYear("1999");
+        angelsAndDemons.setTitle("Explore Everything");
+        angelsAndDemons.setAuthor("Bradley Garrett");
+        angelsAndDemons.setYear("2013");
 
         books.add(sunFall);
         books.add(absoluteProof);
@@ -31,7 +32,10 @@ public class BibliotecaApp {
         return books;
     }
 
-    // DECLARE welcome() method to display welcome message and menu to the user. Ask for user input.
+    // DECLARE start() method, after initiation to display welcome message and menu to the user. Ask for user input.
+    public void welcome() {
+        System.out.println("Welcome to Biblioteca. Your one-stop shop for great book titles in Bangalore!");
+    }
 
     // DECLARE showBooks() method that display books available with title, author and year. Ask for user input.
 
@@ -42,7 +46,6 @@ public class BibliotecaApp {
     // DECLARE quitApp() method to quit the App.
 
     public static void main(String[] args) {
-
         // Create books
 
     }
