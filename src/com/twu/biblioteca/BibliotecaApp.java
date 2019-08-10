@@ -2,6 +2,7 @@ package com.twu.biblioteca;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class BibliotecaApp {
 
@@ -38,21 +39,43 @@ public class BibliotecaApp {
     }
 
     // DECLARE mainMenu() method, show menu and ask for user input.
+    public void mainMenu() {
+        System.out.println("What would you like to view today?");
+        System.out.println("List of books: Press 1");
+        Scanner myObj = new Scanner(System.in);
+        String userChoice = myObj.nextLine();
+        selectMainMenuOption(userChoice);
+    }
+
+    public void selectMainMenuOption(String userChoice) {
+        switch (Integer.parseInt(userChoice)) {
+            case 1:
+                showBooks();
+                break;
+            default:
+                // The user input an unexpected choice.
+                System.out.println("Please select a valid option!");
+        }
+    }
 
     // DECLARE showBooks() method that display books available with title, author and year. Ask for user input.
+
+    // DECLARE
     // DECLARE checkOut(bookObject) method to check out a book.
 
     // DECLARE return(bookObject) method to return a book.
 
     // DECLARE quitApp() method to quit the App.
+    public void quitApp(){
+        System.exit(0);
+    }
 
     public void run() {
 
         // View welcome message 1.1
         welcome();
-
         // View Menu 1.4 (one option only "List of Books")
-
+        mainMenu();
         // Create books and show list of books 1.2
         createLibrary();
         // Check out a book 1.7 > checkout success > return to 1.2

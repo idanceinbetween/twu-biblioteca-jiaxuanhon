@@ -39,20 +39,22 @@ public class BibliotecaAppTest {
             System.setOut(new PrintStream(outContent));
             app.welcome();
         } finally {
-            System.setOut(new PrintStream(outContent));
+            System.setOut(originalOut);
         }
-        Assert.assertTrue(outContent.size() > 1); //new line is a character
+        Assert.assertTrue("There is no welcome message (with line break).", outContent.size() > 1);
     }
 
-    // 1.4
+    // 1.5
     @Test
-    public void canSelectMenu() {
-        app.showMenu();
-
+    public void selectInvalidOptionMainMenu() {
+        try {
+            System.setOut(new PrintStream(outContent));
+            app.selectMainMenuOption("3");
+        } finally {
+            System.setOut(originalOut);
+        }
+        Assert.assertTrue("No error message is displayed", outContent.size() > 1);
     }
 
-    // Check that user gets error message if menu selection is wrong
-
-    //
 
 }
