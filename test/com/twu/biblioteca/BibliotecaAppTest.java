@@ -40,7 +40,11 @@ public class BibliotecaAppTest {
         Assert.assertTrue(outContent.size() > 1); //new line is a character
     }
 
-    // Check that user can select and move to next screen
+    // 1.4
+    @Test
+    public void canSelectMenu() {
+//        app.showMenu();
+    }
 
     // Check that user gets error message if menu selection is wrong
 

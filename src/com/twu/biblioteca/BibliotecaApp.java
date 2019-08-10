@@ -32,21 +32,35 @@ public class BibliotecaApp {
         return books;
     }
 
-    // DECLARE start() method, after initiation to display welcome message and menu to the user. Ask for user input.
+    // DECLARE welcome() method, after initiation to display welcome message.
     public void welcome() {
         System.out.println("Welcome to Biblioteca. Your one-stop shop for great book titles in Bangalore!");
     }
 
-    // DECLARE showBooks() method that display books available with title, author and year. Ask for user input.
+    // DECLARE mainMenu() method, show menu and ask for user input.
 
+    // DECLARE showBooks() method that display books available with title, author and year. Ask for user input.
     // DECLARE checkOut(bookObject) method to check out a book.
 
     // DECLARE return(bookObject) method to return a book.
 
     // DECLARE quitApp() method to quit the App.
 
-    public static void main(String[] args) {
-        // Create books
-
+    public void start() {
+        createLibrary();
+        welcome();
     }
+
+//    public void main(String[] args) {
+        // Create books
+//        createLibrary();
+        // View welcome message 1.1
+//        welcome();
+        // View Menu 1.4 (one option only "List of Books")
+//        mainMenu();
+        // View list of books 1.2
+        // Check out a book 1.7 > checkout success > return to 1.2
+        // Return a book 1.10 > return success > return to 1.2
+        // Quit the app 1.6 (by hitting Esc?)
+//    }
 }
