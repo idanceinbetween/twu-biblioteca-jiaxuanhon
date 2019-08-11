@@ -1,15 +1,15 @@
 package com.twu.biblioteca;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class BibliotecaApp {
 
-    // DECLARE and instantiate ArrayList<Book> books
     ArrayList<Book> books = new ArrayList<Book>();
     String userInput;
 
-    // DECLARE createBooks() method to initialise Book objects.
     public ArrayList<Book> createBooks() {
         Book sunfall = new Book(); //CAN WE INSTANTIATE A BIT MORE EFFICIENTLY?
         sunfall.setTitle("Sunfall");
@@ -33,24 +33,22 @@ public class BibliotecaApp {
         return books;
     }
 
-    // DECLARE welcome() method, after initiation to display welcome message.
     public void welcome() {
         System.out.println("Welcome to Biblioteca. Your one-stop shop for great book titles in Bangalore!");
     }
 
-    // DECLARE mainMenu() method, show menu and ask for user input.
     public void mainMenu() {
         System.out.println("What would you like to view today? Use your keyboard to select a number.");
         System.out.println("1: List of Books");
         System.out.println("0: Quit App");
         userInput = getUserInput();
-        selectMainMenuOption(userInput);
+        actionAtMainMenu(userInput);
     }
 
     public String getUserInput(){
         Scanner myObj = new Scanner(System.in);
-        String userChoice = myObj.nextLine();
-        return userChoice;
+        String userInput = myObj.nextLine();
+        return userInput;
     }
 
     public ArrayList<Book> getAvailableBooks(ArrayList<Book> books){
@@ -61,25 +59,30 @@ public class BibliotecaApp {
         return results;
     }
 
-    public void selectMainMenuOption(String userInput) {
-        switch (Integer.parseInt(userInput)) {
-            case 1:
-                ArrayList<Book> availableBooks = getAvailableBooks(books);
-                showBooks(availableBooks);
-                bookListMenu();
-                userInput = getUserInput();
-                selectBookListMenuOption(userInput);
-                break;
-            case 0:
-                quitApp();
-            default:
-                // User selected invalid option .
-                System.out.println("Please select a valid option!");
+    public ArrayList<Book> getCheckedOutBooks(ArrayList<Book> books){
+        ArrayList<Book> results = new ArrayList<Book>();
+        for ( Book book : this.books){
+            if (book.getCheckedOutStatus()) { results.add(book);};
+        }
+        return results;
+    }
+
+    public void actionAtMainMenu(String userInput) {
+        if (userInput.equals("1")) {
+            ArrayList<Book> availableBooks = getAvailableBooks(books);
+            showBooks(availableBooks);
+            askForActionAtBookList();
+            userInput = getUserInput();
+            actionAtBookList(userInput);
+        } else if (userInput.equals("0")) {
+            quitApp();
+        } else {// User selected invalid option .
+            System.out.println("Please select a valid option!");
+            mainMenu();
         }
     }
 
-    // DECLARE showBooks() method that display books available with title, author and year. Ask for user input.
-    public void showBooks(ArrayList<Book> books) {
+    public void showBooks(@NotNull ArrayList<Book> books) {
         String leftAlignFormat = "| %-20s | %-18s | %-4s |%n";
 
         System.out.format("+----------------------+--------------------+------+%n");
@@ -91,37 +94,64 @@ public class BibliotecaApp {
                 System.out.format(leftAlignFormat, book.getTitle(), book.getAuthor(), book.getYear());
             }
         } else {
-            System.out.format("| There are no books available for check out.           |%n");
+            System.out.format("| There are no books available for check out.      |%n");
         }
 
         System.out.format("+----------------------+--------------------+------|%n");
     }
 
-    public void bookListMenu() {
-        System.out.println("Please enter the title of the book you want to checkout. Or, press 0 to return to main menu.");
+    public void askForActionAtBookList() {
+        System.out.println("Please enter the title of the book you want to checkout. Please press R to return a book, or 0 to return to main menu.");
     }
 
-    public void selectBookListMenuOption(String userInput){
+    public void actionAtBookList(@NotNull String userInput){
         if (userInput.equals("0")) {
             mainMenu();
+        } else if (userInput.equals("R") || userInput.equals("r")) {
+            askForBookTitleToReturn();
+            userInput = getUserInput();
+            if (userInput.equals("0")){mainMenu();} else {actionReturnBook(userInput);}
         } else { //check out by typing book title
-            Book foundBook = null;
-            foundBook = getBookByTitle(userInput);
-            if (foundBook != null) {
-                foundBook.setCheckOut();
-                System.out.println("Thank you! Enjoy the book");
-                mainMenu();
-            } else {
-                System.out.println("Sorry, that book is not available.");
-                mainMenu();
-            }
+            actionCheckOutBook(userInput);
         }
     }
 
-    public Book getBookByTitle(String title){
+    private void askForBookTitleToReturn(){
+        System.out.println("Please enter the title of the book you want to return, or press 0 to return to main menu.");
+    }
+
+    private void actionCheckOutBook(String userInput){
+        Book foundBook = null;
+        ArrayList<Book> availableBooks = getAvailableBooks(books);
+        foundBook = getBookByTitle(userInput, availableBooks);
+        if (foundBook == null) {
+            System.out.println("Sorry, that book is not available.");
+            mainMenu();
+        } else {
+            foundBook.setCheckOut();
+            System.out.println("Thank you! Enjoy the book");
+            mainMenu();
+        }
+    }
+
+    public void actionReturnBook(String userInput){
+        Book foundBook = null;
+        ArrayList<Book> checkedOutBooks = getCheckedOutBooks(books);
+        foundBook = getBookByTitle(userInput, checkedOutBooks);
+        if (foundBook == null) {
+            System.out.println("That is not a valid book to return.");
+            mainMenu();
+        } else {
+            foundBook.setReturn();
+            System.out.println("Thank you for returning the book.");
+            mainMenu();
+        }
+    }
+
+    public Book getBookByTitle(String title, ArrayList<Book> booksList){
         String queryTitleCased = convertToTitleCase(title);
         Book foundBook = null;
-        for (Book book : books){
+        for (Book book : booksList){
             if (book.getTitle().equals(queryTitleCased)) {
                 foundBook = book;
             }
@@ -129,7 +159,7 @@ public class BibliotecaApp {
         return foundBook;
     }
 
-    public String convertToTitleCase(String str){
+    private String convertToTitleCase(String str){
         char[] chars = str.toLowerCase().toCharArray();
         boolean found = false;
         for (int i = 0; i < chars.length; i++) {
@@ -143,24 +173,13 @@ public class BibliotecaApp {
         return String.valueOf(chars);
     }
 
-    // DECLARE checkOut(bookObject) method to check out a book.
-
-    // DECLARE return(bookObject) method to return a book.
-
-    // DECLARE quitApp() method to quit the App.
-    public void quitApp(){
+    private void quitApp(){
         System.exit(0);
     }
 
     public void run() {
-        // Create books and show list of books 1.2
         createBooks();
-        // View welcome message 1.1
         welcome();
-        // View Menu 1.4 (one option only "List of Books")
         mainMenu();
-        // Check out a book 1.7 > checkout success > return to 1.2
-        // Return a book 1.10 > return success > return to 1.2
-        // Quit the app 1.6 (by hitting Esc?)
     }
 }
