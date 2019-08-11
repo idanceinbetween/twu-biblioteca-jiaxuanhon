@@ -118,6 +118,14 @@ public class BibliotecaAppTest {
 
     //1.7
     @Test
+    public void userCanCheckOutBook(){
+        Book sampleBook = (Book) books.get(1);
+        sampleBook.setCheckOut();
+        Assert.assertTrue(sampleBook.getCheckedOutStatus() == true);
+    }
+
+    //1.7
+    @Test
     public void checkedOutBookIsNotOnShowBooks(){
         Book book1 = (Book) books.get(1);
         book1.setCheckOut();
@@ -131,7 +139,7 @@ public class BibliotecaAppTest {
         Assert.assertTrue("Checked out books should not appear in the list of all library books", !outContent.toString().contains(book1.getTitle()));
     }
 
-    // 1.9
+    //1.9
     @Test //TODO this test gets stuck!
     public void unsuccessfulMessageOnCheckoutOfABook() {
         try {
@@ -141,6 +149,14 @@ public class BibliotecaAppTest {
             System.setOut(originalOut);
         }
         Assert.assertTrue("Make sure there is an unsuccessful message on checkout of book.", outContent.size() > 1);
+    }
+
+    //1.10
+    @Test
+    public void userCanReturnBook(){
+        Book sampleBook = (Book) books.get(0);
+        sampleBook.setReturn();
+        Assert.assertTrue(sampleBook.getCheckedOutStatus()==false);
     }
 
 }
