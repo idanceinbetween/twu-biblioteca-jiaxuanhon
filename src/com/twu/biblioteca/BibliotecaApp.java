@@ -53,10 +53,19 @@ public class BibliotecaApp {
         return userChoice;
     }
 
+    public ArrayList<Book> getAvailableBooks(ArrayList<Book> books){
+        ArrayList<Book> results = new ArrayList<Book>();
+        for ( Book book : this.books){
+            if (!book.getCheckedOutStatus()) { results.add(book);};
+        }
+        return results;
+    }
+
     public void selectMainMenuOption(String userInput) {
         switch (Integer.parseInt(userInput)) {
             case 1:
-                showBooks();
+                ArrayList<Book> availableBooks = getAvailableBooks(books);
+                showBooks(availableBooks);
                 bookListMenu();
                 userInput = getUserInput();
                 selectBookListMenuOption(userInput);
@@ -70,22 +79,22 @@ public class BibliotecaApp {
     }
 
     // DECLARE showBooks() method that display books available with title, author and year. Ask for user input.
-    public void showBooks() {
-        String leftAlignFormat = "| %-2d | %-20s | %-18s | %-4s |%n";
+    public void showBooks(ArrayList<Book> books) {
+        String leftAlignFormat = "| %-20s | %-18s | %-4s |%n";
 
-        System.out.format("+----+----------------------+--------------------+------+%n");
-        System.out.format("| No | Book Title           | Author             | Year |%n");
-        System.out.format("+----+----------------------+--------------------+------|%n");
+        System.out.format("+----------------------+--------------------+------+%n");
+        System.out.format("| Book Title           | Author             | Year |%n");
+        System.out.format("+----------------------+--------------------+------|%n");
 
         if (books.size() != 0) {
             for (Book book : books) {
-                System.out.format(leftAlignFormat, books.indexOf(book) + 1, book.getTitle(), book.getAuthor(), book.getYear());
+                System.out.format(leftAlignFormat, book.getTitle(), book.getAuthor(), book.getYear());
             }
         } else {
             System.out.format("| There are no books available for check out.           |%n");
         }
 
-        System.out.format("+----+----------------------+--------------------+------|%n");
+        System.out.format("+----------------------+--------------------+------|%n");
     }
 
     public void bookListMenu() {
@@ -97,18 +106,19 @@ public class BibliotecaApp {
             mainMenu();
         } else { //check out by typing book title
             Book foundBook = null;
-            foundBook = findBookByTitle(userInput);
+            foundBook = getBookByTitle(userInput);
             if (foundBook != null) {
                 foundBook.setCheckOut();
                 System.out.println("Thank you! Enjoy the book");
                 mainMenu();
             } else {
                 System.out.println("Sorry, that book is not available.");
+                mainMenu();
             }
         }
     }
 
-    public Book findBookByTitle(String title){
+    public Book getBookByTitle(String title){
         String queryTitleCased = convertToTitleCase(title);
         Book foundBook = null;
         for (Book book : books){

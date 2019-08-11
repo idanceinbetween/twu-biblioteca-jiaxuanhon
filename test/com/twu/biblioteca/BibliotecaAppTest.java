@@ -13,6 +13,7 @@ public class BibliotecaAppTest {
 
     private BibliotecaApp app;
     private ArrayList books;
+    private ArrayList availableBooks;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
@@ -20,6 +21,7 @@ public class BibliotecaAppTest {
     public void setUp() throws Exception {
         app = new BibliotecaApp();
         books = app.createBooks();
+        availableBooks = app.getAvailableBooks(books);
     }
 
     @After
@@ -61,7 +63,7 @@ public class BibliotecaAppTest {
     public void hasSomethingToShowInBooksListOption() { //TODO rewrite test
         try {
             System.setOut(new PrintStream(outContent));
-            app.showBooks();
+            app.showBooks(availableBooks);
         } finally {
             System.setOut(originalOut);
         }
@@ -70,14 +72,26 @@ public class BibliotecaAppTest {
 
     // Option to go to 1.7 or 1.9, or Main Menu
     @Test
-    public void selectInvalidOptionBookListMenu() {
-        int totalBooks = books.size();
+    public void userAlwaysGetsFeedbackAfterSelectBookListMenuOption() {
         try {
             System.setOut(new PrintStream(outContent));
-            app.findBookByTitle("Not a Real Book");
+            app.selectBookListMenuOption("Not a Real Book");
         } finally {
             System.setOut(originalOut);
         }
         Assert.assertTrue("No error message is displayed when user selected invalid option in List of Books Menu.", outContent.size() > 1);
+    }
+
+    @Test
+    public void checkedOutBookIsNotOnShowBooks(){
+        Book book1 = (Book) books.get(1);
+        book1.setCheckOut();
+        try {
+            System.setOut(new PrintStream(outContent));
+            app.showBooks(availableBooks);
+        } finally {
+            System.setOut(originalOut);
+        }
+        Assert.assertTrue("Checked out books should not appear in the list of all library books", !outContent.toString().contains(book1.getTitle()));
     }
 }
