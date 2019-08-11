@@ -58,16 +58,28 @@ public class BibliotecaAppTest {
         Assert.assertTrue("No error message is displayed when user selected invalid option in Main Menu.", outContent.size() > 1);
     }
 
-    // 1.1
+    // 1.2
     @Test
-    public void hasSomethingToShowInBooksListOption() { //TODO rewrite test
-        try {
-            System.setOut(new PrintStream(outContent));
-            app.showBooks(availableBooks);
-        } finally {
-            System.setOut(originalOut);
+    public void hasSomethingToShowInBooksListOption() { //How to better this test?
+        if (availableBooks.size() > 0) {
+            Book sampleBook = (Book) availableBooks.get(1);
+            String sampleBookTitle = sampleBook.getTitle();
+            try {
+                System.setOut(new PrintStream(outContent));
+                app.showBooks(availableBooks);
+            } finally {
+                System.setOut(originalOut);
+            }
+            Assert.assertTrue("Make sure books are showing in Books List.", outContent.toString().contains(sampleBookTitle));
+        } else {
+            try {
+                System.setOut(new PrintStream(outContent));
+                app.showBooks(availableBooks);
+            } finally {
+                System.setOut(originalOut);
+            }
+            Assert.assertTrue("Make sure there is a message 'no books available' on Books List.", outContent.toString().contains("no books available"));
         }
-        Assert.assertTrue("There is nothing showing if user chose to view List of Books.", outContent.size() > 1);
     }
 
     // Option to go to 1.7 or 1.9, or Main Menu
@@ -94,4 +106,6 @@ public class BibliotecaAppTest {
         }
         Assert.assertTrue("Checked out books should not appear in the list of all library books", !outContent.toString().contains(book1.getTitle()));
     }
+
+
 }
