@@ -74,7 +74,7 @@ public class BibliotecaAppTest {
         int totalBooks = books.size();
         try {
             System.setOut(new PrintStream(outContent));
-            app.selectBookListMenuOption(Integer.toString(totalBooks+1));
+            app.findBookByTitle("Not a Real Book");
         } finally {
             System.setOut(originalOut);
         }
