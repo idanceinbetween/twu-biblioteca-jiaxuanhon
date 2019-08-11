@@ -62,9 +62,15 @@ public class BibliotecaApp {
 
     // DECLARE showBooks() method that display books available with title, author and year. Ask for user input.
     public void showBooks() {
-        for (Book book: books) {
-            System.out.println(String.format("Title: %s || Author: %s || Year: %s", book.getTitle(), book.getAuthor(), book.getYear()));
+        String leftAlignFormat = "| %-20s | %-18s | %-4s |%n";
+
+        System.out.format("+----------------------+--------------------+------+%n");
+        System.out.format("| Book Title           | Author             | Year |%n");
+        System.out.format("+----------------------+--------------------+------+%n");
+        for (Book book : books) {
+            System.out.format(leftAlignFormat, book.getTitle(), book.getAuthor(), book.getYear());
         }
+        System.out.format("+----------------------+--------------------+------+%n");
     }
 
     // DECLARE
@@ -79,7 +85,7 @@ public class BibliotecaApp {
 
     public void run() {
         // Create books and show list of books 1.2
-        createLibrary();
+//        createLibrary();
         // View welcome message 1.1
         welcome();
         // View Menu 1.4 (one option only "List of Books")
