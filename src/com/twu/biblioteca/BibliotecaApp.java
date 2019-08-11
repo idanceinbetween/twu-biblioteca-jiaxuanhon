@@ -8,11 +8,11 @@ import java.util.Scanner;
 
 public class BibliotecaApp {
 
-    // DECLARE and instantiate ArrayList<Book> library
+    // DECLARE and instantiate ArrayList<Book> books
     ArrayList<Book> books = new ArrayList<Book>();
 
-    // DECLARE createLibrary() method to initialise Book objects.
-    public ArrayList<Book> createLibrary() {
+    // DECLARE createBooks() method to initialise Book objects.
+    public ArrayList<Book> createBooks() {
         Book sunfall = new Book(); //CAN WE INSTANTIATE A BIT MORE EFFICIENTLY?
         sunfall.setTitle("Sun Fall");
         sunfall.setAuthor("Jim Al-Khalil");
@@ -42,8 +42,9 @@ public class BibliotecaApp {
 
     // DECLARE mainMenu() method, show menu and ask for user input.
     public void mainMenu() {
-        System.out.println("What would you like to view today?");
-        System.out.println("List of books: Press 1");
+        System.out.println("What would you like to view today? Use your keyboard to select a number.");
+        System.out.println("1: List of Books");
+        System.out.println("0: Quit App");
         Scanner myObj = new Scanner(System.in);
         String userChoice = myObj.nextLine();
         selectMainMenuOption(userChoice);
@@ -53,7 +54,10 @@ public class BibliotecaApp {
         switch (Integer.parseInt(userChoice)) {
             case 1:
                 showBooks();
+//                bookListOptions();
                 break;
+            case 0:
+                quitApp();
             default:
                 // User selected invalid option .
                 System.out.println("Please select a valid option!");
@@ -73,13 +77,31 @@ public class BibliotecaApp {
                 System.out.format(leftAlignFormat, books.indexOf(book)+1, book.getTitle(), book.getAuthor(), book.getYear());
             }
         } else {
-            System.out.format("There are no books available for check out.");
+            System.out.format("| There are no books available for check out.           |%n");
         }
 
         System.out.format("+----+----------------------+--------------------+------|%n");
+        bookListMenu();
     }
 
-    // DECLARE
+    public void bookListMenu() {
+        System.out.println("Please enter the title of the book you want to checkout. Or, press 0 to return to main menu.");
+        Scanner myObj = new Scanner(System.in);
+        String userChoice = myObj.nextLine();
+        selectBookListMenuOption(userChoice);
+    }
+
+    public void selectBookListMenuOption(String userChoice){
+        int choice = Integer.parseInt(userChoice);
+        if (choice == 0) {
+            mainMenu();
+        } else if (choice > 0 && choice < books.size()) {
+            books.get(1-1).setCheckOut();
+        } else {         // User selected invalid option .
+            System.out.println("Please select a valid option!");
+        }
+    }
+
     // DECLARE checkOut(bookObject) method to check out a book.
 
     // DECLARE return(bookObject) method to return a book.
@@ -91,7 +113,7 @@ public class BibliotecaApp {
 
     public void run() {
         // Create books and show list of books 1.2
-        createLibrary();
+        createBooks();
         // View welcome message 1.1
         welcome();
         // View Menu 1.4 (one option only "List of Books")

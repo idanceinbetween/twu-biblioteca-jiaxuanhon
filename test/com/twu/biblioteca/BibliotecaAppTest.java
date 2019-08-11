@@ -12,14 +12,14 @@ import java.util.ArrayList;
 public class BibliotecaAppTest {
 
     private BibliotecaApp app;
-    private ArrayList library;
+    private ArrayList books;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
     @Before
     public void setUp() throws Exception {
         app = new BibliotecaApp();
-        library= app.createLibrary();
+        books = app.createBooks();
     }
 
     @After
@@ -29,7 +29,7 @@ public class BibliotecaAppTest {
 
     @Test
     public void canCreateLibraryWithBookObjects() {
-        Assert.assertTrue(library.size() > 0);
+        Assert.assertTrue(books.size() > 0);
     }
 
     // 1.1
@@ -53,7 +53,7 @@ public class BibliotecaAppTest {
         } finally {
             System.setOut(originalOut);
         }
-        Assert.assertTrue("No error message is displayed when user selected invalid option", outContent.size() > 1);
+        Assert.assertTrue("No error message is displayed when user selected invalid option in Main Menu.", outContent.size() > 1);
     }
 
     // 1.1
@@ -66,5 +66,18 @@ public class BibliotecaAppTest {
             System.setOut(originalOut);
         }
         Assert.assertTrue("There is nothing showing if user chose to view List of Books.", outContent.size() > 1);
+    }
+
+    // Option to go to 1.7 or 1.9, or Main Menu
+    @Test
+    public void selectInvalidOptionBookListMenu() {
+        int totalBooks = books.size();
+        try {
+            System.setOut(new PrintStream(outContent));
+            app.selectBookListMenuOption(Integer.toString(totalBooks+1));
+        } finally {
+            System.setOut(originalOut);
+        }
+        Assert.assertTrue("No error message is displayed when user selected invalid option in List of Books Menu.", outContent.size() > 1);
     }
 }
