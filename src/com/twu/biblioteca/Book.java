@@ -42,4 +42,11 @@ public class Book {
         return checkedOut;
     }
 
+    public String getAvailability(){
+        if (getCheckedOutStatus()){
+            return "Not Available";
+        } else {
+            return "Available";
+        }
+    }
 }
