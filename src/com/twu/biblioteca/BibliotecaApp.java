@@ -62,21 +62,21 @@ public class BibliotecaApp {
 
     // DECLARE showBooks() method that display books available with title, author and year. Ask for user input.
     public void showBooks() {
-        String leftAlignFormat = "| %-2d | %-20s | %-18s | %-4s | %-12s |%n";
+        String leftAlignFormat = "| %-2d | %-20s | %-18s | %-4s |%n";
 
-        System.out.format("+----+----------------------+--------------------+------+--------------|%n");
-        System.out.format("| No | Book Title           | Author             | Year | Availability |%n");
-        System.out.format("+----+----------------------+--------------------+------+--------------|%n");
+        System.out.format("+----+----------------------+--------------------+------+%n");
+        System.out.format("| No | Book Title           | Author             | Year |%n");
+        System.out.format("+----+----------------------+--------------------+------|%n");
 
         if (books.size() != 0) {
             for (Book book : books) {
-                System.out.format(leftAlignFormat, books.indexOf(book)+1, book.getTitle(), book.getAuthor(), book.getYear(), book.getAvailability());
+                System.out.format(leftAlignFormat, books.indexOf(book)+1, book.getTitle(), book.getAuthor(), book.getYear());
             }
         } else {
             System.out.format("There are no books available for check out.");
         }
 
-        System.out.format("+----+----------------------+--------------------+------+--------------|%n");
+        System.out.format("+----+----------------------+--------------------+------|%n");
     }
 
     // DECLARE
