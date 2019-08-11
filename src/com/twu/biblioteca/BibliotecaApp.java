@@ -1,5 +1,7 @@
 package com.twu.biblioteca;
 
+import sun.jvm.hotspot.debugger.cdbg.CDebugger;
+
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -53,12 +55,17 @@ public class BibliotecaApp {
                 showBooks();
                 break;
             default:
-                // The user input an unexpected choice.
+                // User selected invalid option .
                 System.out.println("Please select a valid option!");
         }
     }
 
     // DECLARE showBooks() method that display books available with title, author and year. Ask for user input.
+    public void showBooks() {
+        for (Book book: books) {
+            System.out.println(String.format("Title: %s || Author: %s || Year: %s", book.getTitle(), book.getAuthor(), book.getYear()));
+        }
+    }
 
     // DECLARE
     // DECLARE checkOut(bookObject) method to check out a book.
@@ -71,13 +78,12 @@ public class BibliotecaApp {
     }
 
     public void run() {
-
+        // Create books and show list of books 1.2
+        createLibrary();
         // View welcome message 1.1
         welcome();
         // View Menu 1.4 (one option only "List of Books")
         mainMenu();
-        // Create books and show list of books 1.2
-        createLibrary();
         // Check out a book 1.7 > checkout success > return to 1.2
         // Return a book 1.10 > return success > return to 1.2
         // Quit the app 1.6 (by hitting Esc?)

@@ -53,8 +53,18 @@ public class BibliotecaAppTest {
         } finally {
             System.setOut(originalOut);
         }
-        Assert.assertTrue("No error message is displayed", outContent.size() > 1);
+        Assert.assertTrue("No error message is displayed when user selected invalid option", outContent.size() > 1);
     }
 
-
+    // 1.1
+    @Test
+    public void hasSomethingToShowInBooksListOption() {
+        try {
+            System.setOut(new PrintStream(outContent));
+            app.showBooks();
+        } finally {
+            System.setOut(originalOut);
+        }
+        Assert.assertTrue("There is nothing showing if user chose to view List of Books..", outContent.size() > 1);
+    }
 }
