@@ -7,26 +7,23 @@ import org.junit.Test;
 public class BookTest {
         @Before
         public void setUp() throws Exception {
-            Book sunFall = new Book();
-            sunFall.setTitle("sunFall");
+            Book sunfall = new Book("Sunfall", "Jim Al-Khalil", "2019");
         }
 
         @Test
         public void canInitialiseBookObject() throws Exception {
-            Book sunFall = new Book();
-            sunFall.setTitle("Sun Fall");
-            String title = sunFall.getTitle();
+            Book sunfall = new Book("Sunfall", "Jim Al-Khalil", "2019");
+            String title = sunfall.getTitle();
             assertEquals(title, "Sun Fall");
         }
 
         @Test
         public void canChangeCheckedOutStatus() throws Exception{
-            Book sunFall = new Book();
-            sunFall.setTitle("Sun Fall");
-            sunFall.setCheckOut();
-            assertEquals(sunFall.getCheckedOutStatus(), true);
+            Book sunfall = new Book("Sunfall", "Jim Al-Khalil", "2019");
+            sunfall.setCheckOut();
+            assertEquals(sunfall.getCheckedOutStatus(), true);
 
-            sunFall.setReturn();
-            assertEquals(sunFall.getCheckedOutStatus(), false);
+            sunfall.setReturn();
+            assertEquals(sunfall.getCheckedOutStatus(), false);
         }
 }

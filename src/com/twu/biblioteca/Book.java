@@ -6,6 +6,13 @@ public class Book {
     private String year;
     private Boolean checkedOut = false;
 
+    public Book(String titleStr, String authorStr, String yearStr) {
+        title = titleStr;
+        author = authorStr;
+        year = yearStr;
+    }
+
+
     public void setTitle(String t){
         title = t;
     }

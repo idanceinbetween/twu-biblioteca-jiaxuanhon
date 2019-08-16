@@ -1,7 +1,4 @@
 package com.twu.biblioteca;
-
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -11,20 +8,9 @@ public class BibliotecaApp {
     String userInput;
 
     public ArrayList<Book> createBooks() {
-        Book sunfall = new Book(); //CAN WE INSTANTIATE A BIT MORE EFFICIENTLY?
-        sunfall.setTitle("Sunfall");
-        sunfall.setAuthor("Jim Al-Khalil");
-        sunfall.setYear("2019");
-
-        Book leanImpact = new Book(); //CAN WE INSTANTIATE A BIT MORE EFFICIENTLY?
-        leanImpact.setTitle("Lean Impact");
-        leanImpact.setAuthor("Ann Mei Chang");
-        leanImpact.setYear("2018");
-
-        Book exploreEverything = new Book(); //CAN WE INSTANTIATE A BIT MORE EFFICIENTLY?
-        exploreEverything.setTitle("Explore Everything");
-        exploreEverything.setAuthor("Bradley Garrett");
-        exploreEverything.setYear("2013");
+        Book sunfall = new Book("Sunfall", "Jim Al-Khalil", "2019");
+        Book leanImpact = new Book("Lean Impact", "Ann Mei Chang", "2018");
+        Book exploreEverything = new Book("Explore Everything", "Bradley Garrett", "2013");
 
         books.add(sunfall);
         books.add(leanImpact);
@@ -82,7 +68,7 @@ public class BibliotecaApp {
         }
     }
 
-    public void showBooks(@NotNull ArrayList<Book> books) {
+    public void showBooks(ArrayList<Book> books) {
         String leftAlignFormat = "| %-20s | %-18s | %-4s |%n";
 
         System.out.format("+----------------------+--------------------+------+%n");
@@ -104,7 +90,7 @@ public class BibliotecaApp {
         System.out.println("Please enter the title of the book you want to checkout. Please press R to return a book, or 0 to return to main menu.");
     }
 
-    public void actionAtBookList(@NotNull String userInput){
+    public void actionAtBookList(String userInput){
         if (userInput.equals("0")) {
             mainMenu();
         } else if (userInput.equals("R") || userInput.equals("r")) {
