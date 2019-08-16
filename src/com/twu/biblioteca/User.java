@@ -31,16 +31,17 @@ public class User {
         phoneNumber = phoneStr;
     }
 
-    public String getName(){
-        return name;
+    public String getName() {
+        if (name != null) return name;
+        else return "No name provided";
     }
 
     public String getEmail(){
-        return email;
+        if (email != null) return email; else return "No email provided.";
     }
 
     public String getPhoneNumber(){
-        return phoneNumber;
+        if (phoneNumber != null) return phoneNumber; else return "No phone number provided.";
     }
 
     public static User findUserByLibraryNumber(String libraryNumberStr){
@@ -98,4 +99,7 @@ public class User {
         loanedBooks.remove(index);
     }
 
+    public void viewMyInfo() {
+        System.out.println("Name: " + getName() + "Email: " + getEmail() + "Telephone Number:" + getPhoneNumber());
+    }
 }

@@ -5,11 +5,16 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 import static org.junit.Assert.*;
 
 public class UserTest {
 
     User user;
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private final PrintStream originalOut = System.out;
 
     @Before
     public void setUp() throws Exception {
@@ -61,4 +66,5 @@ public class UserTest {
         user.checkOutBook(sunfall);
         Assert.assertTrue("Book is checked out but not attached to a user.", sunfall.getLoaner().equals(user));
     }
+
 }

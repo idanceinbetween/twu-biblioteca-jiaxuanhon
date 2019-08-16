@@ -17,7 +17,6 @@ public class BibliotecaAppTest {
     private ArrayList movies;
     private ArrayList availableMovies;
     private User user;
-    private User users;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
@@ -26,6 +25,7 @@ public class BibliotecaAppTest {
         app = new BibliotecaApp();
         books = app.createBooks();
         movies = app.createMovies();
+        user = new User("000-0001", "password");
         user = User.login("000-0001", "password");
     }
 
@@ -191,4 +191,15 @@ public class BibliotecaAppTest {
     }
 
     //2.4
+    @Test
+    public void userCanViewUserInformation() {
+        try {
+            System.setOut(new PrintStream(outContent));
+            user.viewMyInfo();
+        } finally {
+            System.setOut(originalOut);
+        }
+        Assert.assertTrue("Name is not showing when viewing information.", outContent.toString().contains(user.getName()));
+    }
+
 }
