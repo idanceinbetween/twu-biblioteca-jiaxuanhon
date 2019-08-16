@@ -5,6 +5,7 @@ public class Book {
     private String author;
     private String year;
     private Boolean checkedOut = false;
+    private User loaner = null;
 
     public Book(String titleStr, String authorStr, String yearStr) {
         title = titleStr;
@@ -47,6 +48,18 @@ public class Book {
 
     public Boolean getCheckedOutStatus(){
         return checkedOut;
+    }
+
+    public void setLoaner(User user){
+        loaner = user;
+    }
+
+    public User getLoaner(){
+        return loaner;
+    }
+
+    public void removeLoaner(User user){
+        loaner = null;
     }
 
 }

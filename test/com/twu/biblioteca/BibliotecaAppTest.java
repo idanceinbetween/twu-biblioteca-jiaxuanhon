@@ -16,6 +16,8 @@ public class BibliotecaAppTest {
     private ArrayList availableBooks;
     private ArrayList movies;
     private ArrayList availableMovies;
+    private User user;
+    private User users;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
@@ -186,4 +188,6 @@ public class BibliotecaAppTest {
             Assert.assertTrue("Make sure there is a message with the phrase 'no movies available' on Movies List.", outContent.toString().contains("no movies available"));
         }
     }
+
+    //2.3
 }
