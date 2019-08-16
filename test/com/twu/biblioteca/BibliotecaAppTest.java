@@ -26,6 +26,7 @@ public class BibliotecaAppTest {
         app = new BibliotecaApp();
         books = app.createBooks();
         movies = app.createMovies();
+        user = User.login("000-0001", "password");
     }
 
     @After
@@ -189,5 +190,5 @@ public class BibliotecaAppTest {
         }
     }
 
-    //2.3
+    //2.4
 }

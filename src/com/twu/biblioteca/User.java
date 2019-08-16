@@ -52,20 +52,21 @@ public class User {
         return foundUser;
     }
 
-    public static Boolean login(String libraryNumberStr, String passwordStr){ //TODO Change to more secure login
+    public static User login(String libraryNumberStr, String passwordStr){ //TODO Change to more secure login
         User user = null;
         Boolean result = false;
         user = User.findUserByLibraryNumber((libraryNumberStr));
         if (user != null) {
-            if (passwordStr.equals(user.getPassword()))
-            result = true;
-            else {
-                 User.loginFail();
-            }}
-        else {
+            if (passwordStr.equals(user.getPassword())) {
+                User.loginSuccess();
+            } else {
+                user = null;
+                User.loginFail();
+            }
+        } else {
             User.loginFail();
         }
-        return result;
+        return user;
     }
 
     private String getPassword() {//TODO Change to more secure login
@@ -74,6 +75,10 @@ public class User {
 
     public static void loginFail(){
         System.out.println("Sorry, user and password combination is incorrect.");
+    }
+
+    public static void loginSuccess(){
+        System.out.println("Login successful.");
     }
 
     public void checkOutBook(Book book){

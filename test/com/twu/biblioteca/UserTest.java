@@ -44,8 +44,8 @@ public class UserTest {
 
     @Test
     public void userCanLoginWithTheCorrectCredentials(){
-        Boolean result = User.login("000-0001", "password");
-        Assert.assertTrue(result);
+        User foundUser = User.login("000-0001", "password");
+        Assert.assertNotNull(foundUser);
     }
 
     @Test
