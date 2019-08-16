@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class BibliotecaApp {
 
     ArrayList<Book> books = new ArrayList<Book>();
+    ArrayList<Movie> movies = new ArrayList<Movie>();
     String userInput;
 
     public ArrayList<Book> createBooks() {
@@ -17,6 +18,18 @@ public class BibliotecaApp {
         books.add(exploreEverything);
 
         return books;
+    }
+
+    public ArrayList<Movie> createMovies() {
+        Movie wonderWoman = new Movie("Wonder Woman", "2017", "Patty Jenkins");
+        Movie theHateYouGive = new Movie("The Hate U Give", "2018", "George Tillman Jr.");
+        Movie theCrossing = new Movie("The Crossing", "2018", "Bai Xue");
+
+        movies.add(wonderWoman);
+        movies.add(theHateYouGive);
+        movies.add(theCrossing);
+
+        return movies;
     }
 
     public void welcome() {
@@ -47,8 +60,25 @@ public class BibliotecaApp {
 
     public ArrayList<Book> getCheckedOutBooks(ArrayList<Book> books){
         ArrayList<Book> results = new ArrayList<Book>();
-        for ( Book book : this.books){
+        for ( Book book : books){
             if (book.getCheckedOutStatus()) { results.add(book);};
+        }
+        return results;
+    }
+
+    public ArrayList<Movie> getAvailableMovies(ArrayList<Movie> movies){
+        ArrayList<Movie> results = new ArrayList<Movie>();
+        for ( Movie movie : movies){
+            if (!movie.getCheckedOutStatus()) { results.add(movie);};
+        }
+
+        return results;
+    }
+
+    public ArrayList<Movie> getCheckedOutMovies(ArrayList<Movie> movies){
+        ArrayList<Movie> results = new ArrayList<Movie>();
+        for ( Movie movie : this.movies){
+            if (movie.getCheckedOutStatus()) { results.add(movie);};
         }
         return results;
     }
@@ -62,7 +92,7 @@ public class BibliotecaApp {
             actionAtBookList(userInput);
         } else if (userInput.equals("0")) {
             quitApp();
-        } else {// User selected invalid option .
+        } else {
             System.out.println("Please select a valid option!");
             mainMenu();
         }
@@ -97,7 +127,7 @@ public class BibliotecaApp {
             askForBookTitleToReturn();
             userInput = getUserInput();
             if (userInput.equals("0")){mainMenu();} else {actionReturnBook(userInput);}
-        } else { //check out by typing book title
+        } else {
             actionCheckOutBook(userInput);
         }
     }
@@ -144,6 +174,25 @@ public class BibliotecaApp {
         }
         return foundBook;
     }
+
+    public void showMovies(ArrayList<Movie> movies) {
+        String leftAlignFormat = "| %-20s | %-4s | %-18s | %-6s |%n";
+
+        System.out.format("+----------------------+------+--------------------+--------+%n");
+        System.out.format("| Movie Name           | Year | Director           | Rating |%n");
+        System.out.format("+----------------------+------+--------------------+--------+%n");
+
+        if (movies.size() != 0) {
+            for (Movie movie : movies) {
+                System.out.format(leftAlignFormat, movie.getName(), movie.getYear(), movie.getDirector(), movie.getRating());
+            }
+        } else {
+            System.out.format("| There are no movies available for check out.      |%n");
+        }
+
+        System.out.format("+----------------------+------+--------------------+--------+%n");
+    }
+
 
     private String convertToTitleCase(String str){
         char[] chars = str.toLowerCase().toCharArray();

@@ -5,10 +5,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class BookTest {
-        @Before
-        public void setUp() throws Exception {
-            Book sunfall = new Book("Sunfall", "Jim Al-Khalil", "2019");
-        }
+//        @Before
+//        public void setUp() throws Exception {
+//            Book sunfall = new Book("Sunfall", "Jim Al-Khalil", "2019");
+//        }
 
         @Test
         public void canInitialiseBookObject() throws Exception {

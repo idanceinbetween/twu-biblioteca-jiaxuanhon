@@ -14,6 +14,8 @@ public class BibliotecaAppTest {
     private BibliotecaApp app;
     private ArrayList books;
     private ArrayList availableBooks;
+    private ArrayList movies;
+    private ArrayList availableMovies;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
@@ -21,6 +23,7 @@ public class BibliotecaAppTest {
     public void setUp() throws Exception {
         app = new BibliotecaApp();
         books = app.createBooks();
+        movies = app.createMovies();
     }
 
     @After
@@ -66,7 +69,7 @@ public class BibliotecaAppTest {
             } finally {
                 System.setOut(originalOut);
             }
-            Assert.assertTrue("Make sure there is a message 'no books available' on Books List.", outContent.toString().contains("no books available"));
+            Assert.assertTrue("Make sure there is a message with the phrase 'no books available' on Books List.", outContent.toString().contains("no books available"));
         }
     }
 
@@ -159,4 +162,28 @@ public class BibliotecaAppTest {
         Assert.assertTrue(sampleBook.getCheckedOutStatus()==false);
     }
 
+    // 2.1
+    @Test
+    public void hasSomethingToShowInMoviesListOption() {
+        availableMovies = app.getAvailableMovies(movies);
+        if (availableMovies.size() > 0) {
+            Movie sampleMovie = (Movie) availableMovies.get(1);
+            String sampleMovieTitle = sampleMovie.getName();
+            try {
+                System.setOut(new PrintStream(outContent));
+                app.showMovies(availableMovies);
+            } finally {
+                System.setOut(originalOut);
+            }
+            Assert.assertTrue("Make sure movies are showing in Movies List.", outContent.toString().contains(sampleMovieTitle));
+        } else {
+            try {
+                System.setOut(new PrintStream(outContent));
+                app.showMovies(availableMovies);
+            } finally {
+                System.setOut(originalOut);
+            }
+            Assert.assertTrue("Make sure there is a message with the phrase 'no movies available' on Movies List.", outContent.toString().contains("no movies available"));
+        }
+    }
 }
