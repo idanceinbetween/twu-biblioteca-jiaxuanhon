@@ -9,6 +9,7 @@ public class User {
     String email;
     String phoneNumber;
     ArrayList<Book> loanedBooks = new ArrayList<Book>();
+    ArrayList<Movie> loanedMovies = new ArrayList<Movie>();
     static ArrayList<User> users = new ArrayList<User>();
 
     public User(String numberStr, String passwordStr) {
@@ -99,7 +100,26 @@ public class User {
         loanedBooks.remove(index);
     }
 
+    public void checkOutMovie(Movie movie){
+        movie.setCheckOut();
+        movie.setLoaner(this);
+        loanedMovies.add(movie);
+    }
+
+    public ArrayList<Movie> getMovieLoans(){
+        return loanedMovies;
+    }
+
+    public void returnMovie(Movie movie){
+        movie.setReturn();
+        movie.removeLoaner(this);
+        int index = loanedMovies.indexOf(movie);
+        loanedMovies.remove(index);
+    }
+
     public void viewMyInfo() {
-        System.out.println("Name: " + getName() + "Email: " + getEmail() + "Telephone Number:" + getPhoneNumber());
+        System.out.println("Name: " + getName());
+        System.out.println("Email: " + getEmail());
+        System.out.println("Telephone Number: " + getPhoneNumber());
     }
 }

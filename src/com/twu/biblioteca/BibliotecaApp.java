@@ -6,6 +6,10 @@ public class BibliotecaApp {
 
     ArrayList<Book> books = new ArrayList<Book>();
     ArrayList<Movie> movies = new ArrayList<Movie>();
+    ArrayList<User> users = new ArrayList<User>();
+    User user = null;
+    ArrayList<Book> myBookLoans = new ArrayList<Book>();
+    ArrayList<Movie> myMovieLoans = new ArrayList<Movie>();
     String userInput;
 
     public ArrayList<Book> createBooks() {
@@ -32,13 +36,45 @@ public class BibliotecaApp {
         return movies;
     }
 
+    public ArrayList<User> createUsers(){
+        User user = new User("000-0001", "password");
+        users.add(user);
+        return users;
+    }
+
     public void welcome() {
         System.out.println("Welcome to Biblioteca. Your one-stop shop for great book titles in Bangalore!");
+        System.out.println("Please login to start.");
+    }
+
+    public void loginMenu(){
+        getLibraryNumber();
+        String libraryNumberStr = getUserInput();
+        getPassword();
+        String password = getUserInput();
+        user = User.login(libraryNumberStr,password);
+        if (user!=null){
+            mainMenu();
+        } else {
+            welcome();
+        }
+    }
+
+    public void getLibraryNumber() {
+        System.out.println("Please enter your library number (Format: xxx-xxxx):");
+    }
+
+    public void getPassword() {
+        System.out.println("Please enter your password:");
     }
 
     public void mainMenu() {
         System.out.println("What would you like to view today? Use your keyboard to select a number.");
         System.out.println("1: List of Books");
+        System.out.println("2: List of Movies");
+        System.out.println("3: View My Book Loans");
+        System.out.println("4: View My Movie Loans");
+        System.out.println("00: View Account Information");
         System.out.println("0: Quit App");
         userInput = getUserInput();
         actionAtMainMenu(userInput);
@@ -90,7 +126,34 @@ public class BibliotecaApp {
             askForActionAtBookList();
             userInput = getUserInput();
             actionAtBookList(userInput);
-        } else if (userInput.equals("0")) {
+        } else if (userInput.equals("2")){
+            ArrayList<Movie> availableMovies = getAvailableMovies(movies);
+            showMovies(availableMovies);
+            askForActionAtMoviesList();
+            userInput = getUserInput();
+            actionAtMovieList(userInput);
+        }
+        else if (userInput.equals("3")){
+            myBookLoans = user.getBookLoans();
+            showBooks(myBookLoans);
+            askForBookTitleToReturn();
+            userInput = getUserInput();
+            if (userInput.equals("0")){mainMenu();} else {actionReturnBook(userInput);}
+            mainMenu();
+        }
+        else if (userInput.equals("4")){
+            myMovieLoans = user.getMovieLoans();
+            showMovies(myMovieLoans);
+            askForMovieNameToReturn();
+            userInput = getUserInput();
+            if (userInput.equals("0")){mainMenu();} else {actionReturnMovie(userInput);}
+            mainMenu();
+        }
+        else if (userInput.equals("00")){
+            user.viewMyInfo();
+            mainMenu();
+        }
+        else if (userInput.equals("0")) {
             quitApp();
         } else {
             System.out.println("Please select a valid option!");
@@ -101,7 +164,7 @@ public class BibliotecaApp {
     public void showBooks(ArrayList<Book> books) {
         String leftAlignFormat = "| %-20s | %-18s | %-4s |%n";
 
-        System.out.format("+----------------------+--------------------+------+%n");
+        System.out.format("+----------------------+-------------------+------+%n");
         System.out.format("| Book Title           | Author             | Year |%n");
         System.out.format("+----------------------+--------------------+------|%n");
 
@@ -110,23 +173,19 @@ public class BibliotecaApp {
                 System.out.format(leftAlignFormat, book.getTitle(), book.getAuthor(), book.getYear());
             }
         } else {
-            System.out.format("| There are no books available for check out.      |%n");
+            System.out.format("| There are no books available.                   |%n");
         }
 
         System.out.format("+----------------------+--------------------+------|%n");
     }
 
     public void askForActionAtBookList() {
-        System.out.println("Please enter the title of the book you want to checkout. Please press R to return a book, or 0 to return to main menu.");
+        System.out.println("Please enter the title of the book you want to checkout, or press 0 to return to main menu.");
     }
 
     public void actionAtBookList(String userInput){
         if (userInput.equals("0")) {
             mainMenu();
-        } else if (userInput.equals("R") || userInput.equals("r")) {
-            askForBookTitleToReturn();
-            userInput = getUserInput();
-            if (userInput.equals("0")){mainMenu();} else {actionReturnBook(userInput);}
         } else {
             actionCheckOutBook(userInput);
         }
@@ -144,7 +203,7 @@ public class BibliotecaApp {
             System.out.println("Sorry, that book is not available.");
             mainMenu();
         } else {
-            foundBook.setCheckOut();
+            user.checkOutBook(foundBook);
             System.out.println("Thank you! Enjoy the book");
             mainMenu();
         }
@@ -158,11 +217,12 @@ public class BibliotecaApp {
             System.out.println("That is not a valid book to return.");
             mainMenu();
         } else {
-            foundBook.setReturn();
+            user.returnBook(foundBook);
             System.out.println("Thank you for returning the book.");
             mainMenu();
         }
     }
+
 
     public Book getBookByTitle(String title, ArrayList<Book> booksList){
         String queryTitleCased = convertToTitleCase(title);
@@ -194,6 +254,61 @@ public class BibliotecaApp {
     }
 
 
+    public void askForActionAtMoviesList() {
+        System.out.println("Please enter the name of the movie you want to checkout. Please press R to return a movie, or 0 to return to main menu.");
+    }
+
+    public void actionAtMovieList(String userInput){
+        if (userInput.equals("0")) {
+            mainMenu();
+        } else {
+            actionCheckOutMovie(userInput);
+        }
+    }
+
+    public Movie getMovieByName(String name, ArrayList<Movie> moviesList){
+        String queryTitleCased = convertToTitleCase(name);
+        Movie foundMovie = null;
+        for (Movie movie : moviesList){
+            if (movie.getName().equals(queryTitleCased)) {
+                foundMovie = movie;
+            }
+        }
+        return foundMovie;
+    }
+
+    private void askForMovieNameToReturn(){
+        System.out.println("Please enter the name of the movie you want to return, or press 0 to return to main menu.");
+    }
+
+    private void actionCheckOutMovie(String userInput){
+        Movie foundMovie = null;
+        ArrayList<Movie> availableMovies = getAvailableMovies(movies);
+        foundMovie = getMovieByName(userInput, availableMovies);
+        if (foundMovie == null) {
+            System.out.println("Sorry, that movie is not available.");
+            mainMenu();
+        } else {
+            user.checkOutMovie(foundMovie);
+            System.out.println("Thank you! Enjoy the movie");
+            mainMenu();
+        }
+    }
+
+    public void actionReturnMovie(String userInput){
+        Movie foundMovie = null;
+        ArrayList<Movie> checkedOutMovies = getCheckedOutMovies(movies);
+        foundMovie = getMovieByName(userInput, checkedOutMovies);
+        if (foundMovie == null) {
+            System.out.println("That is not a valid movie to return.");
+            mainMenu();
+        } else {
+            user.returnMovie(foundMovie);
+            System.out.println("Thank you for returning the movie.");
+            mainMenu();
+        }
+    }
+
     private String convertToTitleCase(String str){
         char[] chars = str.toLowerCase().toCharArray();
         boolean found = false;
@@ -214,7 +329,9 @@ public class BibliotecaApp {
 
     public void run() {
         createBooks();
+        createMovies();
+        createUsers();
         welcome();
-        mainMenu();
+        loginMenu();
     }
 }

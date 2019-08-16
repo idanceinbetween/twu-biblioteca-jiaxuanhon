@@ -15,7 +15,7 @@ public class BookTest {
     @Test
     public void canInitialiseBookObject() throws Exception {
         String title = sunfall.getTitle();
-        assertEquals(title, "Sun Fall");
+        assertEquals(title, "Sunfall");
     }
 
     @Test
