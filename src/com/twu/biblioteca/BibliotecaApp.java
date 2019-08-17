@@ -38,6 +38,7 @@ public class BibliotecaApp {
 
     public ArrayList<User> createUsers(){
         User user = new User("000-0001", "password");
+        user.setNameEmailPhone("Alex Hopper", "alex@hopper.com", "012-1010293");
         users.add(user);
         return users;
     }
@@ -47,25 +48,28 @@ public class BibliotecaApp {
         System.out.println("Please login to start.");
     }
 
-    public void loginMenu(){
+    private void loginMenu(){
         getLibraryNumber();
         String libraryNumberStr = getUserInput();
         getPassword();
         String password = getUserInput();
         user = User.login(libraryNumberStr,password);
-        if (user!=null){
-            mainMenu();
-        } else {
-            welcome();
+        afterLoginMenu();
+    }
+
+    public void afterLoginMenu(){
+        while (user == null){
+            loginMenu();
         }
+        mainMenu();
     }
 
     public void getLibraryNumber() {
-        System.out.println("Please enter your library number (Format: xxx-xxxx):");
+        System.out.println("Please enter your library number (Format: xxx-xxxx) (Default user: 000-0001):");
     }
 
     public void getPassword() {
-        System.out.println("Please enter your password:");
+        System.out.println("Please enter your password: (Default password: password)");
     }
 
     public void mainMenu() {
@@ -164,7 +168,7 @@ public class BibliotecaApp {
     public void showBooks(ArrayList<Book> books) {
         String leftAlignFormat = "| %-20s | %-18s | %-4s |%n";
 
-        System.out.format("+----------------------+-------------------+------+%n");
+        System.out.format("+----------------------+--------------------+------+%n");
         System.out.format("| Book Title           | Author             | Year |%n");
         System.out.format("+----------------------+--------------------+------|%n");
 
@@ -180,7 +184,7 @@ public class BibliotecaApp {
     }
 
     public void askForActionAtBookList() {
-        System.out.println("Please enter the title of the book you want to checkout, or press 0 to return to main menu.");
+        System.out.println("Please enter the title of the book you want to checkout, or press 0 and Enter to return to main menu.");
     }
 
     public void actionAtBookList(String userInput){
@@ -192,7 +196,7 @@ public class BibliotecaApp {
     }
 
     private void askForBookTitleToReturn(){
-        System.out.println("Please enter the title of the book you want to return, or press 0 to return to main menu.");
+        System.out.println("Please enter the title of the book you want to return, or press 0 and Enter to return to main menu.");
     }
 
     private void actionCheckOutBook(String userInput){
@@ -247,7 +251,7 @@ public class BibliotecaApp {
                 System.out.format(leftAlignFormat, movie.getName(), movie.getYear(), movie.getDirector(), movie.getRating());
             }
         } else {
-            System.out.format("| There are no movies available for check out.      |%n");
+            System.out.format("| There are no movies available.                            |%n");
         }
 
         System.out.format("+----------------------+------+--------------------+--------+%n");
@@ -255,7 +259,7 @@ public class BibliotecaApp {
 
 
     public void askForActionAtMoviesList() {
-        System.out.println("Please enter the name of the movie you want to checkout. Please press R to return a movie, or 0 to return to main menu.");
+        System.out.println("Please enter the name of the movie you want to checkout, or press 0 and Enter to return to main menu.");
     }
 
     public void actionAtMovieList(String userInput){
@@ -278,7 +282,7 @@ public class BibliotecaApp {
     }
 
     private void askForMovieNameToReturn(){
-        System.out.println("Please enter the name of the movie you want to return, or press 0 to return to main menu.");
+        System.out.println("Please enter the name of the movie you want to return, or press 0 and Enter to return to main menu.");
     }
 
     private void actionCheckOutMovie(String userInput){
