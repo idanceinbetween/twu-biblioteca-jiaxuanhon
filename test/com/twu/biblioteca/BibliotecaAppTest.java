@@ -146,11 +146,11 @@ public class BibliotecaAppTest {
     }
 
     //1.9
-    @Test //TODO this test gets stuck!
+    @Test //TODO this test gets stuck! Separate out logic and printing IO
     public void unsuccessfulMessageOnCheckoutOfABook() {
         try {
             System.setOut(new PrintStream(outContent));
-            app.actionAtBookList("Not a Real Book");
+            app.actionAtBookList("Not a Real Book"); // this function should maybe return a "false" and then
         } finally {
             System.setOut(originalOut);
         }

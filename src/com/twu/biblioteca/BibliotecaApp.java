@@ -1,4 +1,5 @@
 package com.twu.biblioteca;
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -48,7 +49,7 @@ public class BibliotecaApp {
         System.out.println("Please login to start.");
     }
 
-    private void loginMenu(){
+    private void loginMenu(){ //TODO Flow
         getLibraryNumber();
         String libraryNumberStr = getUserInput();
         getPassword();
@@ -57,7 +58,7 @@ public class BibliotecaApp {
         afterLoginMenu();
     }
 
-    public void afterLoginMenu(){
+    public void afterLoginMenu(){ //TODO Flow
         while (user == null){
             loginMenu();
         }
@@ -85,7 +86,7 @@ public class BibliotecaApp {
     }
 
     public String getUserInput(){
-        Scanner myObj = new Scanner(System.in);
+        Scanner myObj = new Scanner(System.in); //TODO stub/override user input (simulate) testing
         String userInput = myObj.nextLine();
         return userInput;
     }
@@ -123,7 +124,7 @@ public class BibliotecaApp {
         return results;
     }
 
-    public void actionAtMainMenu(String userInput) {
+    public void actionAtMainMenu(String userInput) { //TODO Flow
         if (userInput.equals("1")) {
             ArrayList<Book> availableBooks = getAvailableBooks(books);
             showBooks(availableBooks);
@@ -136,28 +137,24 @@ public class BibliotecaApp {
             askForActionAtMoviesList();
             userInput = getUserInput();
             actionAtMovieList(userInput);
-        }
-        else if (userInput.equals("3")){
+        } else if (userInput.equals("3")){
             myBookLoans = user.getBookLoans();
             showBooks(myBookLoans);
             askForBookTitleToReturn();
             userInput = getUserInput();
             if (userInput.equals("0")){mainMenu();} else {actionReturnBook(userInput);}
             mainMenu();
-        }
-        else if (userInput.equals("4")){
+        } else if (userInput.equals("4")){
             myMovieLoans = user.getMovieLoans();
             showMovies(myMovieLoans);
             askForMovieNameToReturn();
             userInput = getUserInput();
             if (userInput.equals("0")){mainMenu();} else {actionReturnMovie(userInput);}
             mainMenu();
-        }
-        else if (userInput.equals("00")){
+        } else if (userInput.equals("00")){
             user.viewMyInfo();
             mainMenu();
-        }
-        else if (userInput.equals("0")) {
+        } else if (userInput.equals("0")) {
             quitApp();
         } else {
             System.out.println("Please select a valid option!");
@@ -165,7 +162,7 @@ public class BibliotecaApp {
         }
     }
 
-    public void showBooks(ArrayList<Book> books) {
+    public void showBooks(ArrayList<Book> books) { // "return" & printing in the same function
         String leftAlignFormat = "| %-20s | %-18s | %-4s |%n";
 
         System.out.format("+----------------------+--------------------+------+%n");
@@ -187,7 +184,7 @@ public class BibliotecaApp {
         System.out.println("Please enter the title of the book you want to checkout, or press 0 and Enter to return to main menu.");
     }
 
-    public void actionAtBookList(String userInput){
+    public void actionAtBookList(String userInput){ //TODO Flow
         if (userInput.equals("0")) {
             mainMenu();
         } else {
@@ -199,7 +196,7 @@ public class BibliotecaApp {
         System.out.println("Please enter the title of the book you want to return, or press 0 and Enter to return to main menu.");
     }
 
-    private void actionCheckOutBook(String userInput){
+    private void actionCheckOutBook(String userInput){ //TODO Flow
         Book foundBook = null;
         ArrayList<Book> availableBooks = getAvailableBooks(books);
         foundBook = getBookByTitle(userInput, availableBooks);
@@ -213,7 +210,7 @@ public class BibliotecaApp {
         }
     }
 
-    public void actionReturnBook(String userInput){
+    public void actionReturnBook(String userInput){ //TODO Flow
         Book foundBook = null;
         ArrayList<Book> checkedOutBooks = getCheckedOutBooks(books);
         foundBook = getBookByTitle(userInput, checkedOutBooks);
@@ -262,7 +259,7 @@ public class BibliotecaApp {
         System.out.println("Please enter the name of the movie you want to checkout, or press 0 and Enter to return to main menu.");
     }
 
-    public void actionAtMovieList(String userInput){
+    public void actionAtMovieList(String userInput){ //TODO Flow
         if (userInput.equals("0")) {
             mainMenu();
         } else {
@@ -285,7 +282,7 @@ public class BibliotecaApp {
         System.out.println("Please enter the name of the movie you want to return, or press 0 and Enter to return to main menu.");
     }
 
-    private void actionCheckOutMovie(String userInput){
+    private void actionCheckOutMovie(String userInput){ //TODO Flow
         Movie foundMovie = null;
         ArrayList<Movie> availableMovies = getAvailableMovies(movies);
         foundMovie = getMovieByName(userInput, availableMovies);
@@ -299,7 +296,7 @@ public class BibliotecaApp {
         }
     }
 
-    public void actionReturnMovie(String userInput){
+    public void actionReturnMovie(String userInput){ //TODO Flow
         Movie foundMovie = null;
         ArrayList<Movie> checkedOutMovies = getCheckedOutMovies(movies);
         foundMovie = getMovieByName(userInput, checkedOutMovies);
@@ -331,7 +328,7 @@ public class BibliotecaApp {
         System.exit(0);
     }
 
-    public void run() {
+    public void run() { //TODO Flow
         createBooks();
         createMovies();
         createUsers();

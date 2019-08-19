@@ -28,7 +28,7 @@ public class UserTest {
     @Test
     public void canInitialiseUserObject(){
         String number = user.getLibraryNumber();
-        assertEquals("000-0001", user.getLibraryNumber());
+        assertEquals("000-0001", number);
     }
 
     @Test
