@@ -1,0 +1,1 @@
+SELECT title FROM movie AS td WHERE (NOT EXISTS (SELECT movie_id FROM checkout_item AS d WHERE movie_id = td.id));

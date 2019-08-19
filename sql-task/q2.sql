@@ -1,0 +1,1 @@
+SELECT COUNT (id) FROM member AS td WHERE (NOT EXISTS (SELECT member_id FROM checkout_item AS d WHERE member_id = td.id));
